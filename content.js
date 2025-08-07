@@ -1,10 +1,40 @@
+// Create controls container (bottom-right dock)
+const controlsContainer = document.createElement('div');
+controlsContainer.style.cssText = `
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 10000;
+`;
+document.body.appendChild(controlsContainer);
+
+// Reopen/Launcher button (shown when dock is hidden)
+const reopenButton = document.createElement('button');
+reopenButton.innerHTML = '🛠 Tools';
+reopenButton.style.cssText = `
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 12px;
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  z-index: 10000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  display: none;
+`;
+document.body.appendChild(reopenButton);
+
 // Create toggle button
 const toggleButton = document.createElement('button');
 toggleButton.innerHTML = '👁 Show data-atm';
 toggleButton.style.cssText = `
-  position: fixed;
-  top: 20px;
-  right: 140px;
   padding: 8px 16px;
   background: #2563eb;
   color: white;
@@ -12,18 +42,14 @@ toggleButton.style.cssText = `
   border-radius: 6px;
   cursor: pointer;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  z-index: 10000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
-document.body.appendChild(toggleButton);
+controlsContainer.appendChild(toggleButton);
 
 // Create alt text button
 const altTextButton = document.createElement('button');
 altTextButton.innerHTML = '♿️ Accessibility';
 altTextButton.style.cssText = `
-  position: fixed;
-  top: 20px;
-  right: 20px;
   padding: 8px 16px;
   background: #059669;
   color: white;
@@ -31,10 +57,39 @@ altTextButton.style.cssText = `
   border-radius: 6px;
   cursor: pointer;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  z-index: 10000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 `;
-document.body.appendChild(altTextButton);
+controlsContainer.appendChild(altTextButton);
+
+// Hide dock button
+const hideControlsButton = document.createElement('button');
+hideControlsButton.innerHTML = '—';
+hideControlsButton.title = 'Hide tools';
+hideControlsButton.style.cssText = `
+  width: 32px;
+  height: 32px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+`;
+controlsContainer.appendChild(hideControlsButton);
+
+hideControlsButton.addEventListener('click', () => {
+  controlsContainer.style.display = 'none';
+  reopenButton.style.display = 'block';
+});
+
+reopenButton.addEventListener('click', () => {
+  controlsContainer.style.display = 'flex';
+  reopenButton.style.display = 'none';
+});
 
 // Create tooltip
 const tooltip = document.createElement('div');
@@ -57,7 +112,7 @@ document.body.appendChild(tooltip);
 const allDataAtmContainer = document.createElement('div');
 allDataAtmContainer.style.cssText = `
   position: fixed;
-  top: 70px;
+  bottom: 70px;
   right: 20px;
   max-width: 300px;
   max-height: 80vh;
@@ -76,7 +131,7 @@ document.body.appendChild(allDataAtmContainer);
 const allAltTextContainer = document.createElement('div');
 allAltTextContainer.style.cssText = `
   position: fixed;
-  top: 70px;
+  bottom: 70px;
   right: 20px;
   max-width: 300px;
   max-height: 80vh;
